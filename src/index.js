@@ -126,21 +126,98 @@ serviceWorker.unregister();
 
 // let exampleStyle = {
 //   background: "skyblue",
-//   borderBottom: "1px solid red"
+//   borderBottom: "1px solid red",
+//   backgroundImage: "url(https://pic4.zhimg.com/v2-2e0b4141d45c51f5c2eb9f601ecd3b91_xll.jpg)"
 // }
 // let element = (
 //   <div>
 //     <h1 style= {exampleStyle}>hello</h1>
 //   </div>
 // )
+// let classNamejia = ['a','b'].join(" ")
+// let element2 = (
+//   <div>
+//     {/** 注释必须在括号里面 */}
+//   <h1 className = {'a'} style = {exampleStyle}>你好</h1>
+//   <h1 className = {`${color} b`}>注释和样式表示</h1>
+//   <p className={classNamejia}>
+//       我今天学会了什么呢
+//   </p>
+//   </div>
+// )
+// ReactDOM.render(
+//   element2,
+//   document.querySelector('#root')
+// )
+// 为什么有时候用getElementID 有时候又用querySelector 这两者又什么区别么 最好用querySelector
 
-let element2 = (
-  <div>
-  <h1 className = {'bgRed'}>hi</h1>
-  </div>
-)
-ReactDOM.render(
-  element2,
-  document.querySelector('#root')
-)
-// 为什么有时候用getElementID 有时候又用querySelector 这两者又什么区别么
+// 函数式组件
+// function Childcom(){
+//   let h = <h2> 定义变量</h2>
+//   let weather = "天晴"
+//   let isGo = weather === "下雨了么" ? "不出门": "出门"
+//   return(
+//     <div>
+//       <h1>函数式组件</h1>
+//       {h}
+//       <h4>出门么？</h4>
+//       <h4>{isGo}</h4>
+//     </div>
+//   )
+// }
+// ReactDOM.render(
+//   <Childcom />,
+//   document.querySelector('#root')
+// )
+
+//eslint-disable-next-line 
+// function Childcom(props){
+//   // let h = <h2> 定义变量</h2>
+//   let weather = "下雨"
+//   let isGo = weather === props.weather?  "不出门": "出门"
+//   return(
+//     <div>
+//       {/* <h1>函数式组件</h1>
+//       {h} */}
+//       <h4>出门么？</h4>
+//       <h4>{isGo}</h4>
+//     </div>
+//   )
+// }
+// ReactDOM.render(
+//   <Childcom weather = "下雨" />,
+//   document.querySelector('#root')
+// )
+
+// // 类组件
+// class Hello extends React.Component{
+//   render(){
+//     return(
+//       <div>
+//         <h1>shenshi</h1>
+//         <h2>hello!</h2>
+//         <h3>{this.props.name}</h3>
+//         {/* 复合组件 */}
+//         <Childcom/>
+
+//         <h2>
+//             我是类组件
+//         </h2>
+//       </div>
+//     )
+//   }
+// }
+// ReactDOM.render(
+//   <Hello weather = "下雨" name = "shenhsi"/>,
+//   document.querySelector('#root')
+// )
+
+// 函数式组件 类组件 区别
+// 函数式  一般为静态的 没有交互的
+// 类组件 用于交互式的
+// 复合组件 组件中还有组件 既可以有类组件 也可以有函数组件
+
+
+
+
+
