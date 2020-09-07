@@ -410,57 +410,102 @@ serviceWorker.unregister();
 
 
 
-// 数据传递 子传父
- class PapCom  extends  React.Component{
-     constructor(props){
-            super(props)
-            this.state ={
-                ChiData: null
-            }
-     }
-     render(){
-         return(
-             <div>
-                <h1>子元素传递给父元素 的数据： {this.state.ChiData}</h1>
-                <ChiCom setChiData = {this.setChiData}/>
-             </div>
-         )
-     }
-    //  在父元素中设置一个函数 传入参数为子元素参数
-     setChiData = (data)=>{
-         this.setState({
-             ChiData: data
-         })
-     }
- }
+// // 数据传递 子传父
+//  class PapCom  extends  React.Component{
+//      constructor(props){
+//             super(props)
+//             this.state ={
+//                 ChiData: null
+//             }
+//      }
+//      render(){
+//          return(
+//              <div>
+//                 <h1>子元素传递给父元素 的数据： {this.state.ChiData}</h1>
+//                 <ChiCom setChiData = {this.setChiData}/>
+//              </div>
+//          )
+//      }
+//     //  在父元素中设置一个函数 传入参数为子元素参数
+//      setChiData = (data)=>{
+//          this.setState({
+//              ChiData: data
+//          })
+//      }
+//  }
 
- class ChiCom extends React.Component{
-     constructor(props){
-         super(props)
-         this.state={
-             msg: "hello"
-         }
-     }
+//  class ChiCom extends React.Component{
+//      constructor(props){
+//          super(props)
+//          this.state={
+//              msg: "hello"
+//          }
+//      }
 
-     render(){
-         return(
-             <div>
-                 <button onClick = {this.sendData}>传递hello给父元素 </button>
-                 <button onClick = {()=>{this.props.setChiData("直接传入子元素参数")}}>传递子元素给父元素 </button>
-             </div>
-         )
-     }
-    //  箭头函数 也是指向当前的this   这与通过bind进行绑定含义是一样的
-    // 向父元素提供参数的函数
-     sendData=()=>{
-            //将子元素传递给父元素，实际上就是调用父元素传递进来的 父元素函数
-             console.log(this.props.setChiData(this.state.msg))
-             this.props.setChiData(this.state.msg)
-     }
+//      render(){
+//          return(
+//              <div>
+//                  <button onClick = {this.sendData}>传递hello给父元素 </button>
+//                  <button onClick = {()=>{this.props.setChiData("直接传入子元素参数")}}>传递子元素给父元素 </button>
+//              </div>
+//          )
+//      }
+//     //  箭头函数 也是指向当前的this   这与通过bind进行绑定含义是一样的
+//     // 向父元素提供参数的函数
+//      sendData=()=>{
+//             //将子元素传递给父元素，实际上就是调用父元素传递进来的 父元素函数
+//              console.log(this.props.setChiData(this.state.msg))
+//              this.props.setChiData(this.state.msg)
+//      }
 
- }
+//  }
 
- ReactDOM.render(
-     <PapCom/>,
-     document.querySelector('#root')
- )
+//  ReactDOM.render(
+//      <PapCom/>,
+//      document.querySelector('#root')
+//  )
+
+
+
+// 事件 onClick  绑定事件写驼峰命名   {} 传入一个函数  不是字符串
+// 事件对象react返回的事件对象是代理的原生事件对象 如果想要查看事件具体值 必须输出事件对象的属性 
+// 原生 阻止默认行为时，可以直接返回return false
+class  DadCom extends React.Component{
+    constructor(props) {
+        super(props);
+        
+    }
+    render(){
+        return(
+            <div> 
+                <div className="children">
+                    <form action="https://www.baidu.com/">
+                        <h1>hello</h1>
+                        <button onClick={this.dadEvent}>提交</button>
+                    </form>
+                    {/* 函数调用必须要以匿名的方式进行调用 */}
+                    {/* 使用箭头函数调用多个参数 */}
+                    <button onClick={(e)=>{this.dadEvent1('msg:hello',e)}}>提交</button> 
+                    {/* 使用普通函数调用多个参数  必须加bind(this)*/}
+                    <button onClick={function(e){this.dadEvent1('shenshi',e)}.bind(this)}> 提交 </button> 
+                </div>
+            </div>
+        )
+        }
+    // react 事件传参   
+    dadEvent=(e)=>{
+        console.log(e);
+        // 阻止默认事件 form中默认事件就是跳转到百度中   在react中  必须使用e.preventDefault()
+        e.preventDefault();
+        // return false;
+    }
+    dadEvent1=(msg,e)=>{
+        console.log(msg);
+        console.log(e);
+    }
+}
+
+ReactDOM.render(
+    <DadCom />,
+    document.querySelector('#root')
+)
