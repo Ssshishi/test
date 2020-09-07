@@ -220,4 +220,112 @@ serviceWorker.unregister();
 
 
 
+// class Clock extends React.Component{
+//     constructor(props){
+//             super(props)
+//             // 状态即数据 决定着 视图
+//             // 构造函数中初始化 state 数据   将需要变化的数据用state修改
+//             this.state = {
+//                 time: new Date().toLocaleTimeString()
+//             }
+             
+//     }
 
+//     render(){
+//         // console.log("这是渲染函数")
+//         // this.state.time = new Date().toLocaleTimeString();
+//         // 
+//         return(
+//             <div>
+//                <span>现在时间是：</span> <span>{this.state.time}</span>
+//             </div>
+//         )
+//     }
+
+
+//     //  生命周期函数  组件渲染完成时的函数
+// componentDidMount(){
+//     setInterval(()=>{  
+//         console.log(this.state.time)
+//         //  在console 中时间是在变化  但是 并没有渲染到页面上   
+//         // this.state.time = new Date().toLocaleTimeString(); 这是错误的方式
+//         // 不要直接用state重新渲染  而是采用setState进行渲染
+//         // 通过 this,setState 修改完数据后 并不会立即修改DOM里面的内容，react会在这个函数内容所有设置状态改变后，统一对比虚拟DOM对象，然后在统一修改，提升性能
+//         this.setState({
+//             time: new Date().toLocaleTim eString()
+//         })
+//         console.log(this.state.time)
+//     }, 1000  )
+    
+// }
+// }
+
+
+// ReactDOM.render(
+//     <Clock />,
+    
+//     document.querySelector('#root')
+// )
+// setInterval(
+//     ()=>{
+//         ReactDOM.render(
+//             <Clock />, 
+//             // 会调用渲染函数
+//             document.querySelector('#root')
+//         )  
+        
+//     }, 1000
+// )
+
+
+class Tab extends React.Component{
+    constructor(props){
+        super(props)
+        
+        // 设置状态 数据  用this.state   
+        this.state = {
+            c1: 'noActive',
+            c2: 'noActive'
+        }  
+
+        // 必须对事件进行绑定
+        this.clickEvent = this.clickEvent.bind(this)
+    }
+    clickEvent(e){
+        console.log('clickEvent')
+        console.log(e.target.dataset.index)
+        let index = e.target.dataset.index;
+        if(index === '1'){
+            this.setState({
+                c1: 'content active',
+                c2: 'content'
+            })
+        }else{
+            this.setState({
+                c1: 'content',
+                c2: 'content active'
+            })
+        }
+    }
+    render(){
+        return(
+            <div>
+                {/* 在 render 方法中使用 Function.prototype.bind 会在每次组件渲染时创建一个新的函数 */}
+                <button  data-index ="1" onClick = {this.clickEvent}>内容一</button>
+                <button data-index ="2" onClick = {this.clickEvent}>内容2</button>
+                <div className = {this.state.c1}>
+                    <h2>显示内容1</h2>
+                </div>
+                <div className = {this.state.c2}>
+                    <h2>显示内容2</h2>
+                </div>
+            </div>
+        )
+    }
+}
+
+
+ReactDOM.render(
+    <Tab />,
+    document.querySelector('#root')
+)

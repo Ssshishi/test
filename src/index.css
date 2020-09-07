@@ -20,3 +20,16 @@ code {
 .b{
   color: white;
 }
+.content {
+  display: none;
+  background-color: greenyellow;
+}
+/* 同级类名中间不要打空格  否则是后代选择器 */
+ .content.active{
+    display: block;
+    width: 300px;
+    height: 200px;
+ }
+ .noActive{
+   display: none;
+ }
