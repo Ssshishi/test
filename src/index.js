@@ -278,54 +278,189 @@ serviceWorker.unregister();
 // )
 
 
-class Tab extends React.Component{
-    constructor(props){
-        super(props)
+// class Tab extends React.Component{
+//     constructor(props){
+//         super(props)
         
-        // 设置状态 数据  用this.state   
-        this.state = {
-            c1: 'noActive',
-            c2: 'noActive'
-        }  
+    //     // 设置状态 数据  用this.state   
+    //     this.state = {
+    //         c1: 'noActive',
+    //         c2: 'noActive'
+    //     }  
 
-        // 必须对事件进行绑定
-        this.clickEvent = this.clickEvent.bind(this)
-    }
-    clickEvent(e){
-        console.log('clickEvent')
-        console.log(e.target.dataset.index)
-        let index = e.target.dataset.index;
-        if(index === '1'){
-            this.setState({
-                c1: 'content active',
-                c2: 'content'
-            })
-        }else{
-            this.setState({
-                c1: 'content',
-                c2: 'content active'
-            })
-        }
-    }
-    render(){
-        return(
-            <div>
-                {/* 在 render 方法中使用 Function.prototype.bind 会在每次组件渲染时创建一个新的函数 */}
-                <button  data-index ="1" onClick = {this.clickEvent}>内容一</button>
-                <button data-index ="2" onClick = {this.clickEvent}>内容2</button>
-                <div className = {this.state.c1}>
-                    <h2>显示内容1</h2>
-                </div>
-                <div className = {this.state.c2}>
-                    <h2>显示内容2</h2>
-                </div>
-            </div>
-        )
-    }
-}
+    //     // 必须对事件进行绑定
+    //     this.clickEvent = this.clickEvent.bind(this)
+    // }
+    // clickEvent(e){
+    //     console.log('clickEvent')
+    //     console.log(e.target.dataset.index)
+    //     let index = e.target.dataset.index;
+    //     if(index === '1'){
+    //         this.setState({
+    //             c1: 'content active',
+    //             c2: 'content'
+    //         })
+//         }else{
+//             this.setState({
+//                 c1: 'content',
+//                 c2: 'content active'
+//             })
+//         }
+//     }
+//     render(){
+//         return(
+//             <div>
+//                 {/* 在 render 方法中使用 Function.prototype.bind 会在每次组件渲染时创建一个新的函数 */}
+//                 <button  data-index ="1" onClick = {this.clickEvent}>内容一</button>
+//                 <button data-index ="2" onClick = {this.clickEvent}>内容2</button>
+//                 <div className = {this.state.c1}>
+//                     <h2>显示内容1</h2>
+//                 </div>
+//                 <div className = {this.state.c2}>
+//                     <h2>显示内容2</h2>
+//                 </div>
+//             </div>
+//         )
+//     }
+// }
 
 
-ReactDOM.render(
-    <Tab />,
-    document.querySelector('#root')
-)
+// ReactDOM.render(
+//     <Tab />,
+//     document.querySelector('#root')
+// )
+
+
+
+// props   父传递给子组件数据  单向流动 不能子传递给父
+// props 的传值 
+// props 可以设置默认值   HomeMessage.defaultProps = {name: "shenshi", msg: "hello"}
+// 注意   props可以传递父元素的函数 就可以修改父元素的state  从而达到传递数据给父元素
+
+// 在父元素中使用state去控制子元素props 从而达到父元素数据传递到子元素
+
+// class ParentCom extends React.Component{
+//     constructor(props){
+//         super(props)
+
+//         this.state = {
+//             isActive:true
+//         }
+//         this.changeShow = this.changeShow.bind(this);
+//     }
+//     render(){
+//         return(
+//             <div>
+//                 <button onClick= {this.changeShow}>控制子元素显示</button>
+//                 <ChildCom isActive={this.state.isActive} />
+
+//             </div> 
+//         ) 
+//     }  
+//     changeShow(){
+//              this.setState({
+//                    isActive: !this.state.isActive
+//              })
+//     }
+// }
+// class ChildCom extends React.Component{
+//     constructor(props){
+//         super(props)
+//         this.state = {
+//                 time: new Date().toLocaleTimeString()
+//         }   
+//     }
+//     render(){
+//         let  strClass = null;
+//         // 通过props调用父元素的状态（数据）
+//         if(this.props.isActive){ 
+//             strClass = ' active'
+//         } else{
+//             strClass = ""
+//         }
+//         return(
+//         <div>
+//         <div>
+//             <span>相隔一秒显示一次，现在时间是:</span>
+//             <span>{this.state.time}</span>
+//         </div>
+//         <div className = {"content1"+strClass}>
+//                 <h1>我是子元素</h1>
+                
+//         </div>
+//         </div>
+//         )
+ 
+//     } 
+//     // 组件渲染完成时  谁调用就写在谁的里面
+//     componentDidMount(){
+//         setInterval(()=>{
+//             this.setState({time: new Date().toLocaleTimeString()})
+//         },1000)
+//     }
+// }
+
+
+
+// ReactDOM.render(
+//     <ParentCom/>,
+//     document.querySelector('#root')
+// )
+
+
+
+
+// 数据传递 子传父
+ class PapCom  extends  React.Component{
+     constructor(props){
+            super(props)
+            this.state ={
+                ChiData: null
+            }
+     }
+     render(){
+         return(
+             <div>
+                <h1>子元素传递给父元素 的数据： {this.state.ChiData}</h1>
+                <ChiCom setChiData = {this.setChiData}/>
+             </div>
+         )
+     }
+    //  在父元素中设置一个函数 传入参数为子元素参数
+     setChiData = (data)=>{
+         this.setState({
+             ChiData: data
+         })
+     }
+ }
+
+ class ChiCom extends React.Component{
+     constructor(props){
+         super(props)
+         this.state={
+             msg: "hello"
+         }
+     }
+
+     render(){
+         return(
+             <div>
+                 <button onClick = {this.sendData}>传递hello给父元素 </button>
+                 <button onClick = {()=>{this.props.setChiData("直接传入子元素参数")}}>传递子元素给父元素 </button>
+             </div>
+         )
+     }
+    //  箭头函数 也是指向当前的this   这与通过bind进行绑定含义是一样的
+    // 向父元素提供参数的函数
+     sendData=()=>{
+            //将子元素传递给父元素，实际上就是调用父元素传递进来的 父元素函数
+             console.log(this.props.setChiData(this.state.msg))
+             this.props.setChiData(this.state.msg)
+     }
+
+ }
+
+ ReactDOM.render(
+     <PapCom/>,
+     document.querySelector('#root')
+ )

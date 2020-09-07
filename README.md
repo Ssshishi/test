@@ -66,3 +66,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+<!--  状态即数据 的变化  修改到 视图上   
+    首先构造函数初始化数据，将需要变化的数据初始化到state中
+    在生命周期 组件渲染完成时  不要直接用state数据   需要使用 setState 重新渲染state数据到视图上
+
+ -->
