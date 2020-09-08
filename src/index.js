@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect}from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App'; 
@@ -802,100 +802,169 @@ serviceWorker.unregister();
 //     document.querySelector('#root')
 // )
 
-
+ 
 // 状态提升  多个组件需要反映相同的变化数据，这时可以将共享状态提升到最近的共同父组件中去
-function BoilingVerdict (props) {
-    if (props.celsius >= 100) {
-        return <p> the water would boil</p>
-    } else {
-        return <p> the water would not boil</p>
-    }
+// 实现温度换算
+// 是否会煮沸 函数组件 
+// function BoilingVerdict (props) {
+//     if (props.celsius >= 100) {
+//         return <p> the water would boil</p>
+//     } else {
+//         return <p> the water would not boil</p>
+//     }
+// }
+// // 温度输入 组件  
+// class TemperatureInput extends React.Component {
+//     constructor (props) {
+//         super(props);
+//         this.handleChange = this.handleChange.bind (this);
+//     }
+//     // 通过props 调用父组件的函数
+//     handleChange (e) {
+//         this.props.onTemperatureChange (e.target.value)
+//     }
+
+//     render (){
+//         // 来自父组件 props 这两个量
+//         const temperature = this.props.temperature;
+//         const scale = this.props.scale;
+//         return (
+//             <fieldset>
+//                 <legend>
+//                     Enter temperature in {scalesName[scale]}
+//                 </legend>
+//                 <input value = {temperature} onChange = {this.handleChange} />
+//             </fieldset>
+//         )
+//     }
+// }
+// // 定义华氏温度和标准温度名称
+// const scalesName = {
+//     c: 'Celsius',
+//     f: 'Fahrenheit'
+// }
+
+// // 换算华氏温度与标准温度之间 换算
+// function toCelsius (fahrenheit) {
+//     return (fahrenheit - 32) * 5 /9
+// }
+// function toFahrenheit(celsius) {
+//     return (celsius * 9 /5) + 32
+// }
+
+// 将输入温度值 从 数值型变成 字符串型
+// function tryConvert (temperature, convert){
+//     const input = parseFloat(temperature);
+//     // 输入为空时
+//     if(Number.isNaN(input)) {
+//         return '';
+//     }
+
+//     const output = convert(input);
+//     // 四舍五入 函数
+//     const rounded = Math.round(output * 1000) / 1000; 
+//     return rounded.toString();
+// }
+
+// // 共同的父组件 所有需要变化的量均共享在这个共同父组件中
+// class Calculator extends React.Component {
+//     constructor (props) {
+//         super (props);
+//         this.state = {
+//             temperature: '',
+//             scale: 'c'
+//         };
+//         this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+//         this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+//     }
+//     handleCelsiusChange (temperature) {
+//         this.setState ({
+//             scale: 'c',
+//             temperature
+//         })
+//     }
+//     handleFahrenheitChange (temperature) {
+//         this.setState ({
+//             scale: 'f',
+//             temperature
+//         })
+//     }
+//     render () {
+//         const scale = this.state.scale;
+//         const temperature = this.state.temperature;
+//         const celsius = scale === 'f' ? tryConvert (temperature,toCelsius) : temperature;
+//         const fahrenheit = scale === 'c' ? tryConvert(temperature,toFahrenheit) : temperature;
+
+//         return (
+//            <div>
+//                <TemperatureInput scale = 'c' temperature = {celsius} onTemperatureChange = {this.handleCelsiusChange} />
+//                <TemperatureInput scale = 'f' temperature = {fahrenheit} onTemperatureChange = {this.handleFahrenheitChange} />
+//                <BoilingVerdict celsius = {parseFloat(celsius)} />
+
+//            </div>
+//         )
+//     }
+// }
+
+
+// ReactDOM.render(
+//     <Calculator />,
+//     document.querySelector('#root')
+// )
+
+// 使用hook 目的： 通过自定义hook可以实现组件间的公用状态操作
+//  useState useEffect  创建stack hook 和 effect hook
+
+// 状态钩 
+// function Example () {
+//     // 给函数内部加一些 state   useState(参数是 初始state  只有一个参数)
+//     const [count, setCount] = useState(0);
+
+//     return (
+//         <div>
+//             <p> you clicked {count} times </p>
+//             <button onClick = {() => setCount (count + 1)}>
+//                 click me
+//             </button>
+//         </div>
+//     )
+// }
+ 
+// ReactDOM.render(
+//     <Example />,
+//     document.querySelector ('#root')
+// )
+
+// 效果钩 useEffect
+// 副作用 也就是  执行过数据获取 订阅 手动修改过DOM  useEffect就是可以给函数组件增加操作副作用的能力 
+
+function Example1 () {
+    const [count, setCount] = useState(0);
+
+    // useEffect(() => {
+    //     effect
+    //     return () => {
+    //         cleanup
+    //     }
+    // }, [input])
+    
+    useEffect(() => {
+        // 模板字符串 的写法
+        // 更改网站标题
+        document.title = `You click ${count} times`;
+    });
+
+    return (
+        <div>
+            <p>you click {count} times</p>
+            <button onClick = {() => setCount (count + 1)} >
+                click me
+            </button>
+        </div>
+    )
 }
-class TemperatureInput extends React.Component {
-    constructor (props) {
-        super(props);
-        this.handleChange = this.handleChange.bind (this);
-    }
 
-    handleChange (e) {
-        this.props.onTemperatureChange (e.target.value)
-    }
-
-    render (){
-        const temperature = this.props.temperature;
-        const scale = this.props.scale;
-        return (
-            <fieldset>
-                <legend>
-                    Enter temperature in {scalesName[scale]}
-                </legend>
-                <input value = {temperature} onChange = {this.handleChange} />
-            </fieldset>
-        )
-    }
-}
-
-const scalesName = {
-    c: 'Celsius',
-    f: 'Fahrenheit'
-}
-
-function toCelsius (fahrenheit) {
-    return (fahrenheit - 32) * 5 /9
-}
-function toFahrenheit(celsius) {
-    return (celsius * 9 /5) + 32
-}
-
-function tryConvert (temperature, convert){
-    const input = parseFloat(temperature);
-    if(Number.isNaN(input)) {
-        return '';
-    }
-    const output = convert(input);
-    const rounded = Math.round(output * 1000) / 1000;
-    return rounded.toString();
-}
-class Calculator extends React.Component {
-    constructor (props) {
-        super (props);
-        this.state = {
-            temperature: '',
-            scale: 'c'
-        };
-        this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
-        this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
-    }
-    handleCelsiusChange (temperature) {
-        this.setState ({
-            scale: 'c',
-            temperature
-        })
-    }
-    handleFahrenheitChange (temperature) {
-        this.setState ({
-            scale: 'f',
-            temperature
-        })
-    }
-    render () {
-        const scale = this.state.scale;
-        const temperature = this.state.temperature;
-        const celsius = scale === 'f' ? tryConvert (temperature,toCelsius) : temperature;
-        const fahrenheit = scale === 'c' ? tryConvert(temperature,toFahrenheit) : temperature;
-
-        return (
-           <div>
-               <TemperatureInput scale = 'c' temperature = {celsius} onTemperatureChange = {this.handleCelsiusChange} />
-               <TemperatureInput scale = 'f' temperature = {fahrenheit} onTemperatureChange = {this.handleFahrenheitChange} />
-               <BoilingVerdict celsius = {parseFloat(celsius)} />
-           </div>
-        )
-    }
-}
-
-
-ReactDOM.render(
-    <Calculator />,
+ReactDOM.render (
+    <Example1 />,
     document.querySelector('#root')
 )
