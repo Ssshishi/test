@@ -469,43 +469,433 @@ serviceWorker.unregister();
 
 // 事件 onClick  绑定事件写驼峰命名   {} 传入一个函数  不是字符串
 // 事件对象react返回的事件对象是代理的原生事件对象 如果想要查看事件具体值 必须输出事件对象的属性 
-// 原生 阻止默认行为时，可以直接返回return false
-class  DadCom extends React.Component{
-    constructor(props) {
-        super(props);
+// // 原生 阻止默认行为时，可以直接返回return false
+// class  DadCom extends React.Component{
+//     constructor(props) {
+//         super(props);
         
+//     }
+//     render(){
+//         return(
+//             <div> 
+//                 <div className="children">
+//                     <form action="https://www.baidu.com/">
+//                         <h1>hello</h1>
+//                         <button onClick={this.dadEvent}>提交</button>
+//                     </form>
+//                     {/* 函数调用必须要以匿名的方式进行调用 */}
+//                     {/* 使用箭头函数调用多个参数 */}
+//                     <button onClick={(e)=>{this.dadEvent1('msg:hello',e)}}>提交</button> 
+//                     {/* 使用普通函数调用多个参数  必须加bind(this)*/}
+//                     <button onClick={function(e){this.dadEvent1('shenshi',e)}.bind(this)}> 提交 </button> 
+//                 </div>
+//             </div>
+//         )
+//         }
+//     // react 事件传参   
+//     dadEvent=(e)=>{
+//         console.log(e);
+//         // 阻止默认事件 form中默认事件就是跳转到百度中   在react中  必须使用e.preventDefault()
+//         e.preventDefault();
+//         // return false;
+//     }
+//     dadEvent1=(msg,e)=>{
+//         console.log(msg);
+//         console.log(e);
+//     }
+// }
+
+// ReactDOM.render(
+//     <DadCom />,
+//     document.querySelector('#root')
+// )
+
+
+// react 渲染   条件渲染  即js里面的条件运算 三元运算
+// function UserGreet (props) {
+//     return (
+//         <h1>
+//             欢迎登陆
+//         </h1>
+//     )
+// }
+
+// function UserLogin (props) {
+//     return (
+//         <h1>请先登陆</h1>
+//     )
+// }
+
+// class Pa extends React.Component {
+//     constructor (props) {
+//         super (props)
+//         this.state = {
+//             isLogin: true
+//         }
+//     }
+//     // 直接通过条件运算返回渲染的JSX对象 
+//     // 通过条件运算得 出jsx对象 再将jsx对象渲染到模板中
+//     render () {
+//         let element = null ;
+//         if (this.state.isLogin) { 
+//             element =  <UserGreet></UserGreet> ;
+//             //   另一种方式  return ( <UserLogin> </UserLogin> )
+//             }else{
+//                 element = <UserLogin></UserLogin> ;
+//             }
+
+//         return (
+//             <div>
+//                 <h1>头部</h1>
+//                 {element}
+//                 <h1>这是三元运算符的操作</h1>
+//                 { this.state.isLogin ? <UserGreet></UserGreet> : <UserLogin></UserLogin> }
+//                 <h1>尾部</h1>
+//             </div>
+//         )
+//     }
+// }
+
+// // 提高代码质量 以空格隔开
+
+// ReactDOM.render (
+//     <Pa></Pa>,
+//     document.querySelector ('#root')
+// )
+
+
+//  列表渲染   将列表内容拼装成数组 放到 模板中      将数据拼装封装成  数组的jsx 对象
+
+// let arr = [ "小明", "小王", "小赵", "小诗"]
+// let arrHtml =[ <li>小明</li>, <li>小王</li>, <li>小赵</li>, <li>小诗</li> ]
+// class Welcome extends React.Component {
+//     constructor (props) {
+//         super (props)
+//     }
+//     render () {
+//         return (
+//             <div>
+//                 <ul>
+//                     { arrHtml }
+//                 </ul>
+//             </div>
+//         )
+//     }
+// }
+
+// ReactDOM.render (
+//     <Welcome/>,
+//     document.querySelector ('#root')
+// )
+
+// class  Welcome extends React.Component {
+//     constructor (props) {
+//         super (props)
+//         this.state = {
+//             list: [
+//                 {
+//                     title: " 第一节 ",
+//                     content:  " 事件内容 "
+//                 },
+//                 {
+//                     title: " 第二节 ",
+//                     content:  " 数据传递内容 "
+//                 },
+//                 {
+//                     title: " 第三节 ",
+//                     content:  " 条件渲染内容 "
+//                 }
+//             ]
+//         }
+//     }
+//     render () {
+        // 第一种方式
+        // let listArr = []
+        // for (let i=0; i < this.state.list.length; i++){
+        //     let item = (
+        //         <li>
+        //             <h3>{this.state.list[i].title} </h3>
+        //             <p> {this.state.list[i].content} </p>
+        //         </li>  
+        //     )
+        //     listArr.push(item)
+        // }
+
+        // 第二种方式
+        // 使用数组的map方法 ，将每一项数据按照jsx的形式进行加工，最终得到1个每一项都是jsx对象的数组，家在将数组渲染到模板中。
+        // key 值需要放置到每一项中。
+//         let listArr = this.state.list.map ((item, index)=>{
+//             return(
+//                 <li key = {index}>
+//                     <h3>{index + 1}: {item.title} </h3>
+//                     <p>{index + 1}: {item.content} </p>
+//                 </li>
+//             )
+//         })
+//         console.log(listArr)
+//         return (
+//             <div>
+//                 <h1>
+//                     今天
+//                 </h1>
+
+//                 <ul>
+//                     {listArr}
+//                 </ul>
+//             </div>
+//         )
+//     }
+// }
+
+// ReactDOM.render (
+//     <Welcome/>,
+//     document.querySelector(' #root ')
+// )
+
+
+// key 标识
+// function ListItem (props) {
+//     return (
+//         <li>
+//             {props.value}
+//         </li>
+//     );
+// }
+
+// function NumberList (props) {
+//     // NumberList有两个参数  numbers listItems
+//     const numbers = props.numbers;
+//     const listItems = numbers.map((number) => <ListItem key = {number.toString()} value = {number} />);
+
+//     return (
+//         <ul>
+//             {listItems}
+//         </ul>
+//     );
+// }
+// const numbers = [1, 2, 3, 4, 5];
+
+// ReactDOM.render(
+//     <NumberList numbers = {numbers} />,
+//     document.querySelector('#root')
+// )
+
+// key 在兄弟节点之间必须唯一
+// function Blog (props) {
+//     const sideBar = (
+//         <ul>
+//             {props.posts.map ((post) =>
+//                 <li key = {post.id}>
+//                     {post.title}
+//                 </li>
+//             )}
+//         </ul>
+//     );
+//     const content = props.posts.map ((post) =>
+//         <div key = {post.id}>
+//             <h3>{post.title}</h3>
+//             <p>{post.content}</p>
+//         </div>
+//     );
+//     return (
+//         <div>
+//             {sideBar}
+//             <hr/>
+//             {content}
+//         </div>
+//     );
+// }
+
+// const posts = [
+//     {id: 1, title: 'hello', content: '欢迎你'},
+//     {id: 2, title: 'hi', content: '谢谢你'}
+// ]
+
+// ReactDOM.render(
+//     <Blog posts = {posts}/>,
+//     document.querySelector('#root')
+// )
+
+
+// 表单
+// class NameForm extends React.Component {
+//     constructor (props) {
+//         super (props);
+//         this.state = {
+//             value : ''
+//         };
+//         this.handleChange = this.handleChange.bind(this);
+//         this.handleSubmit = this.handleSubmit.bind(this);
+//     }
+
+//     handleChange (event) {
+//         this.setState ({
+//             value: event.target.value
+//         });
+//     }
+//     handleSubmit (event) {
+//         console.log( '提交的名字：' + this.state.value);
+//         event.preventDefault();
+//     }
+
+//     render () {
+//         return (
+//             <form onSubmit = {this.handleSubmit}>
+//                 <label>
+//                     名字：
+//                     <input type = "text" value = {this.state.value} onChange = {this.handleChange} />
+//                 </label>
+//                 <input type = "submit" value = "提交" />
+//             </form>
+//         )
+//     }
+// }
+
+// ReactDOM.render (
+//     <NameForm />,
+//     document.querySelector ('#root')
+// )
+
+
+// //下拉列表
+// class FlavorForm extends React.Component {
+//     constructor (props) {
+//         super (props);
+//         this.state = {
+//             value: 'coconut'
+//         };
+//         this.handleChange = this.handleChange.bind(this);
+//         this.handleSubmit = this.handleSubmit.bind(this);
+//     }
+//     handleChange (event) {
+//         this.setState({
+//             value: event.target.value
+//         })
+//     }
+//     handleSubmit (event) {
+//         console.log(event);
+//         console.log ('你喜欢吃' + this.state.value);
+//         event.preventDefault();
+//     }
+
+//     render () {
+//         return (
+//             <form onSubmit = {this.handleSubmit}>
+//                 <label>
+//                     选择你喜欢吃的：
+//                     <select value = {this.state.value} onChange = {this.handleChange}>
+//                         <option value = "grape">葡萄</option>
+//                         <option value = "peanuts">桃子</option>
+//                         <option value = "banana">香蕉</option>
+//                         <option value = "coconut">椰子</option>
+//                         <option value = "mango">芒果</option>
+//                     </select>
+//                 </label>
+//                 <input type = "submit" value = "提交" />
+//             </form>
+//         )
+//     }
+// }
+
+// ReactDOM.render (
+//     <FlavorForm />,
+//     document.querySelector('#root')
+// )
+
+
+// 状态提升  多个组件需要反映相同的变化数据，这时可以将共享状态提升到最近的共同父组件中去
+function BoilingVerdict (props) {
+    if (props.celsius >= 100) {
+        return <p> the water would boil</p>
+    } else {
+        return <p> the water would not boil</p>
     }
-    render(){
-        return(
-            <div> 
-                <div className="children">
-                    <form action="https://www.baidu.com/">
-                        <h1>hello</h1>
-                        <button onClick={this.dadEvent}>提交</button>
-                    </form>
-                    {/* 函数调用必须要以匿名的方式进行调用 */}
-                    {/* 使用箭头函数调用多个参数 */}
-                    <button onClick={(e)=>{this.dadEvent1('msg:hello',e)}}>提交</button> 
-                    {/* 使用普通函数调用多个参数  必须加bind(this)*/}
-                    <button onClick={function(e){this.dadEvent1('shenshi',e)}.bind(this)}> 提交 </button> 
-                </div>
-            </div>
+}
+class TemperatureInput extends React.Component {
+    constructor (props) {
+        super(props);
+        this.handleChange = this.handleChange.bind (this);
+    }
+
+    handleChange (e) {
+        this.props.onTemperatureChange (e.target.value)
+    }
+
+    render (){
+        const temperature = this.props.temperature;
+        const scale = this.props.scale;
+        return (
+            <fieldset>
+                <legend>
+                    Enter temperature in {scalesName[scale]}
+                </legend>
+                <input value = {temperature} onChange = {this.handleChange} />
+            </fieldset>
         )
-        }
-    // react 事件传参   
-    dadEvent=(e)=>{
-        console.log(e);
-        // 阻止默认事件 form中默认事件就是跳转到百度中   在react中  必须使用e.preventDefault()
-        e.preventDefault();
-        // return false;
-    }
-    dadEvent1=(msg,e)=>{
-        console.log(msg);
-        console.log(e);
     }
 }
 
+const scalesName = {
+    c: 'Celsius',
+    f: 'Fahrenheit'
+}
+
+function toCelsius (fahrenheit) {
+    return (fahrenheit - 32) * 5 /9
+}
+function toFahrenheit(celsius) {
+    return (celsius * 9 /5) + 32
+}
+
+function tryConvert (temperature, convert){
+    const input = parseFloat(temperature);
+    if(Number.isNaN(input)) {
+        return '';
+    }
+    const output = convert(input);
+    const rounded = Math.round(output * 1000) / 1000;
+    return rounded.toString();
+}
+class Calculator extends React.Component {
+    constructor (props) {
+        super (props);
+        this.state = {
+            temperature: '',
+            scale: 'c'
+        };
+        this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+        this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    }
+    handleCelsiusChange (temperature) {
+        this.setState ({
+            scale: 'c',
+            temperature
+        })
+    }
+    handleFahrenheitChange (temperature) {
+        this.setState ({
+            scale: 'f',
+            temperature
+        })
+    }
+    render () {
+        const scale = this.state.scale;
+        const temperature = this.state.temperature;
+        const celsius = scale === 'f' ? tryConvert (temperature,toCelsius) : temperature;
+        const fahrenheit = scale === 'c' ? tryConvert(temperature,toFahrenheit) : temperature;
+
+        return (
+           <div>
+               <TemperatureInput scale = 'c' temperature = {celsius} onTemperatureChange = {this.handleCelsiusChange} />
+               <TemperatureInput scale = 'f' temperature = {fahrenheit} onTemperatureChange = {this.handleFahrenheitChange} />
+               <BoilingVerdict celsius = {parseFloat(celsius)} />
+           </div>
+        )
+    }
+}
+
+
 ReactDOM.render(
-    <DadCom />,
+    <Calculator />,
     document.querySelector('#root')
 )
