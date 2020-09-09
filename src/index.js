@@ -1,6 +1,10 @@
 import React, {useState, useEffect}from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import './index.css';
+
+import FirstCom from './component/FirstCom.js';
+import SecondCom from './component/SecondCom.js';
 // import App from './App'; 
 // 导入APP 渲染
 import * as serviceWorker from './serviceWorker';
@@ -938,33 +942,74 @@ serviceWorker.unregister();
 // 效果钩 useEffect
 // 副作用 也就是  执行过数据获取 订阅 手动修改过DOM  useEffect就是可以给函数组件增加操作副作用的能力 
 
-function Example1 () {
-    const [count, setCount] = useState(0);
+// function Example1 () {
+//     const [count, setCount] = useState(0);
 
-    // useEffect(() => {
-    //     effect
-    //     return () => {
-    //         cleanup
-    //     }
-    // }, [input])
+//     // useEffect(() => {
+//     //     effect
+//     //     return () => {
+//     //         cleanup
+//     //     }
+//     // }, [input])
     
-    useEffect(() => {
-        // 模板字符串 的写法
-        // 更改网站标题
-        document.title = `You click ${count} times`;
-    });
+//     useEffect(() => {
+//         // 模板字符串 的写法
+//         // 更改网站标题
+//         document.title = `You click ${count} times`;
+//     });
 
-    return (
-        <div>
-            <p>you click {count} times</p>
-            <button onClick = {() => setCount (count + 1)} >
-                click me
-            </button>
-        </div>
-    )
-}
+//     return (
+//         <div>
+//             <p>you click {count} times</p>
+//             <button onClick = {() => setCount (count + 1)} >
+//                 click me
+//             </button>
+//         </div>
+//     )
+// }
 
-ReactDOM.render (
-    <Example1 />,
+// ReactDOM.render (
+//     <Example1 />,
+//     document.querySelector('#root')
+// )
+
+// useEffect  还可以返回一个函数来指定如何 清除副作用 
+// function FriendStatus(props) {
+//     const [isOnline, setIsOnline] = useState(null);
+
+//     function handleStatusChange (status) {
+//         setIsOnline (status.isOnline);
+//     }
+
+//     useEffect(() => {
+//         ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange)
+//         return () => {
+//             ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange)
+//         }
+//     })
+
+//     if (isOnline === null) {
+//         return 'Loading...';
+//     }
+//     return isOnline ? 'Online' : 'Offline';
+// }
+
+// 路由的使用
+// 首先安装react-router-dom
+// BrowserRouter as Router表示使用Router就是使用BrowserRouter 
+// <Route exact path="/" component={Landing} />exact表示指定path只有在访问'/'的时候才展示component={Landing}里面的组件,这个属性可选择性使用
+//  ReactRouter 三大组件  
+//      Router:  所有路由组件的 根组件 也就是 底层组件  包裹路由规则的最外层容器
+//      Route:   路由规则匹配组件 显示当前规则对应的组件
+//      Link:    路由跳转的组件
+
+let firstCom = (<div>
+    <FirstCom />
+    <SecondCom />
+</div>);
+
+ReactDOM.render(
+    firstCom,
     document.querySelector('#root')
 )
+
