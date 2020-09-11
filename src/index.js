@@ -8,6 +8,7 @@ import SecondCom from './component/SecondCom.js';
 // import App from './App'; 
 // 导入APP 渲染
 import * as serviceWorker from './serviceWorker';
+import Product from './component/Product';
 
 // let app = <App/>;
 // let he = <h1>Hello</h1>;
@@ -1006,6 +1007,7 @@ serviceWorker.unregister();
 let firstCom = (<div>
     <FirstCom />
     <SecondCom />
+    <Product />
 </div>);
 
 ReactDOM.render(
